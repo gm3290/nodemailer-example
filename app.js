@@ -11,10 +11,19 @@ const transport = {
 }
 const from = "your account";
 
+const getHtml = (templateName, data) => {
+
+  let templatePath = `${templateName}.html`;
+  let templateContent = fs.readFileSync(templatePath, 'utf8');
+  return _.template(templateContent, data, {
+    interpolate: /\{\{(.+?)\}\}/g
+  });
+};
+
 const sendMailer = (to, subject, template) => {
 
   var transporter = nodemailer.createTransport(transport);
-  
+
   const mailOptions = {
     from: from,
     to: to, subject: subject,
